@@ -34,12 +34,14 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled ? "bg-white py-4 shadow-lg" : "bg-transparent py-8"}`}>
+    <nav className={`top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled ? "fixed bg-white py-4 shadow-lg translate-y-0" : "absolute bg-transparent py-8"}`}>
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className={`text-2xl font-bold tracking-[0.2em] transition-colors duration-500 ${isScrolled ? "text-brand-primary" : "text-white"}`}>
-            ALUFURN
-          </span>
+          <img 
+            src={isScrolled ? "/logo_green.png" : "/logo_white.png"} 
+            alt="ALUFURN" 
+            className="h-8 md:h-10 w-auto transition-all duration-500"
+          />
         </div>
 
         {/* Desktop Menu - Hidden on Tablet (lg) and below */}
@@ -109,73 +111,63 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative h-screen w-full overflow-hidden flex items-end pb-32 md:pb-40">
-      {/* Background with slow zoom animation */}
-      <motion.div
-        initial={{ scale: 1.1 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 10, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
-        className="absolute inset-0 z-0"
-      >
+    <section className="relative h-screen w-full overflow-hidden flex items-end pb-16 md:pb-24">
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/40 z-10" />
-        <img
-          src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop"
-          alt="Luxury Interior"
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
           className="w-full h-full object-cover"
-          referrerPolicy="no-referrer"
-        />
-      </motion.div>
-
-      <div className="container mx-auto px-6 md:px-12 relative z-20">
-        <div className="max-w-2xl">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-3xl md:text-5xl font-bold text-white leading-tight tracking-[0.15em] mb-6 uppercase"
-          >
-            Crafting <span className="text-brand-gold">Timeless</span> <br />
-            <span className="italic font-light lowercase tracking-normal opacity-70">Spaces</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-sm md:text-base text-white/60 mb-10 max-w-md leading-relaxed font-light tracking-wide"
-          >
-            Premium architectural interior solutions that transform houses into extraordinary homes.
-          </motion.p>
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            whileHover={{ scale: 1.05, backgroundColor: "#C5A059" }}
-            className="group flex items-center gap-3 px-5 py-3 border border-white/20 text-white rounded-none transition-all duration-300 tracking-[0.3em] text-[10px] font-bold uppercase"
-          >
-            Explore Designs
-            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </motion.button>
-        </div>
+        >
+          <source src="/bg_hero_section.webm" type="video/webm" />
+        </video>
       </div>
 
-      {/* Scroll indicator */}
+      <div className="container mx-auto px-6 md:px-12 relative z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="max-w-4xl"
+        >
+          <h1 className="text-3xl md:text-6xl font-bold text-white leading-tight tracking-tight mb-6 uppercase">
+            <span className="bg-gradient-to-r from-[#FF9933] via-white to-[#138808] bg-clip-text text-transparent">MADE IN INDIA</span>, DESIGNED FOR EVERY SPACE
+          </h1>
+          
+          <p className="text-base md:text-2xl text-white mb-10 max-w-2xl font-medium">
+            From Kitchens to Wardrobes — Built for Your Space
+          </p>
+          
+          <motion.button
+            whileHover={{ backgroundColor: "#ffffff", color: "#1a3a3a" }}
+            transition={{ duration: 0.3 }}
+            className="px-10 py-4 border-2 border-white text-white rounded-none tracking-widest text-sm md:text-base font-bold uppercase"
+          >
+            Get a Quote
+          </motion.button>
+        </motion.div>
+      </div>
+
+      {/* Subtle Scroll indicator */}
       <motion.div
-        animate={{ y: [0, 10, 0] }}
+        animate={{ y: [0, 5, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 text-white/50 flex flex-col items-center gap-2"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1 opacity-30"
       >
-        <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-white/50 to-transparent" />
+        <div className="w-px h-8 bg-white" />
       </motion.div>
     </section>
   );
 };
 
-const ShowcaseItem = ({ number, title, description, image, reverse = false }: { number: string, title: string, description: string, image: string, reverse?: boolean }) => {
+const ShowcaseItem = ({ title, description, image, reverse = false }: { title: string, description: string, image: string, reverse?: boolean }) => {
   return (
-    <div className={`flex flex-col ${reverse ? "md:flex-row-reverse" : "md:flex-row"} items-center gap-0 mb-32 last:mb-0 relative`}>
-      {/* Image Container - Sharp Edges */}
-      <div className="w-full md:w-2/3 h-[500px] md:h-[600px] overflow-hidden">
+    <div className={`flex flex-col ${reverse ? "md:flex-row-reverse" : "md:flex-row"} items-center mb-24 last:mb-0 relative`}>
+      {/* Image Container */}
+      <div className="w-full md:w-[75%] h-[400px] md:h-[600px] overflow-hidden shadow-2xl">
         <motion.img
           initial={{ scale: 1.1 }}
           whileInView={{ scale: 1 }}
@@ -187,22 +179,22 @@ const ShowcaseItem = ({ number, title, description, image, reverse = false }: { 
         />
       </div>
 
-      {/* Floating Card */}
+      {/* Content Box - Overlapping */}
       <motion.div
-        initial={{ opacity: 0, x: reverse ? -50 : 50 }}
+        initial={{ opacity: 0, x: reverse ? 15 : -15 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className={`bg-white p-8 md:p-12 shadow-2xl z-10 w-[90%] md:w-[40%] mt-[-100px] md:mt-0 ${reverse ? "md:mr-[-8%]" : "md:ml-[-8%]"} rounded-none border border-gray-100`}
+        className={`bg-white p-5 md:p-8 shadow-2xl z-10 w-[75%] md:w-[25%] mt-[-40px] md:mt-0 ${reverse ? "md:ml-[-6%]" : "md:mr-[-6%]"} flex flex-col justify-center border border-gray-50`}
       >
-        <span className="text-brand-gold font-medium text-sm mb-3 block tracking-widest">{number}</span>
-        <h3 className="text-2xl md:text-3xl font-semibold text-brand-primary mb-4 tracking-tight uppercase">{title}</h3>
-        <p className="text-brand-primary/70 leading-relaxed mb-8 font-light text-sm md:text-base">
+        <h3 className="text-lg md:text-xl font-bold text-brand-primary mb-2 tracking-tight uppercase">
+          {title}
+        </h3>
+        <p className="text-brand-primary/80 leading-relaxed font-medium text-[11px] md:text-[13px] max-w-sm">
           {description}
         </p>
-        <button className="bg-brand-primary text-white px-6 py-3 rounded-none flex items-center gap-3 hover:bg-brand-gold transition-all duration-300 group tracking-[0.3em] text-[10px] font-bold uppercase">
-          Explore {title}
-          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+        <button className="mt-4 text-brand-gold text-[8px] font-bold uppercase tracking-[0.2em] flex items-center gap-2 hover:gap-4 transition-all duration-300">
+          Explore {title} <ArrowRight size={10} />
         </button>
       </motion.div>
     </div>
@@ -211,38 +203,32 @@ const ShowcaseItem = ({ number, title, description, image, reverse = false }: { 
 
 const Showcase = () => {
   return (
-    <section className="py-32 bg-brand-light overflow-hidden">
+    <section className="py-32 bg-[#f4f4f4] overflow-hidden">
       <div className="container mx-auto px-6 md:px-12">
-        <div className="text-center mb-24">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-semibold text-brand-primary mb-6 tracking-tight"
-          >
+        {/* Integrated Brand Intro */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
+          <h2 className="text-2xl md:text-5xl font-bold text-brand-primary uppercase tracking-tight mb-4">
             COMPLETE HOME INTERIOR SOLUTIONS
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-brand-primary/60 italic font-light text-lg"
-          >
+          </h2>
+          <p className="text-brand-gold italic text-xs md:text-base font-medium tracking-wide">
             Kitchen, Wardrobes, Vanities & Doors — Perfectly Integrated.
-          </motion.p>
-        </div>
+          </p>
+        </motion.div>
 
         <ShowcaseItem
-          number="01"
-          title="Kitchens"
+          title="Kitchen"
           description="Experience the perfect blend of form and function. Our bespoke kitchens are crafted with precision, featuring premium materials and state-of-the-art integration to elevate your culinary space."
-          image="https://images.unsplash.com/photo-1556911223-435f7566d392?q=80&w=1600&auto=format&fit=crop"
+          image="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop"
         />
 
         <ShowcaseItem
-          number="02"
-          title="Wardrobes"
+          title="Wardrobe"
           description="Transform your storage into a statement of luxury. Our intelligently designed wardrobes combine sophisticated aesthetics with unparalleled organization for a seamless lifestyle."
           image="https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=1600&auto=format&fit=crop"
           reverse
@@ -853,7 +839,11 @@ const Footer = () => {
         {/* Main Content */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
           <div className="md:col-span-1">
-            <span className="text-2xl font-bold tracking-[0.2em] mb-6 block">ALUFURN</span>
+            <img 
+              src="/logo_white.png" 
+              alt="ALUFURN" 
+              className="h-10 w-auto mb-6"
+            />
             <p className="text-white/60 text-sm leading-relaxed mb-8 font-light">
               Redefining luxury through architectural precision and timeless design. We create spaces that resonate with elegance and functionality.
             </p>
